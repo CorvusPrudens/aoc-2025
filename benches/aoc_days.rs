@@ -10,6 +10,14 @@ fn criterion_benchmark(c: &mut Criterion) {
             black_box(result);
         })
     });
+
+    c.bench_function("1 p2", |b| {
+        let input = include_str!("../inputs/one-p1.txt");
+        b.iter(|| {
+            let result = days::one::part_two(input);
+            black_box(result);
+        })
+    });
 }
 
 criterion_group!(benches, criterion_benchmark);
