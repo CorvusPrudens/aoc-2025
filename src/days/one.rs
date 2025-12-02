@@ -67,12 +67,9 @@ impl Lock {
     }
 
     fn left_count_travel(&mut self, value: u32) {
-        let mut crossings = ((100 - self.tick as u32) + value) / 100;
-        // The zero case is kind of annoying
-        if self.tick == 0 && crossings >= 1 {
-            crossings = crossings.saturating_sub(1);
-        }
-
+        // The extra mod 100 removes miscounts when starting at zero.
+        let start = (100 - self.tick as u32) % 100;
+        let crossings = (start + value) / 100;
         self.zeroes += crossings;
 
         self.tick = (self.tick - value as i32).rem_euclid(100);
