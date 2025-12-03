@@ -4,7 +4,7 @@ use std::hint::black_box;
 
 fn criterion_benchmark(c: &mut Criterion) {
     c.bench_function("1 p1", |b| {
-        let input = include_str!("../inputs/one-p1.txt");
+        let input = include_str!("../inputs/one.txt");
         b.iter(|| {
             let result = days::one::part_one(input);
             black_box(result);
@@ -12,9 +12,25 @@ fn criterion_benchmark(c: &mut Criterion) {
     });
 
     c.bench_function("1 p2", |b| {
-        let input = include_str!("../inputs/one-p1.txt");
+        let input = include_str!("../inputs/one.txt");
         b.iter(|| {
             let result = days::one::part_two(input);
+            black_box(result);
+        })
+    });
+
+    c.bench_function("2 p1", |b| {
+        let input = include_str!("../inputs/two.txt");
+        b.iter(|| {
+            let result = days::two::part_one(input);
+            black_box(result);
+        })
+    });
+
+    c.bench_function("2 p2", |b| {
+        let input = include_str!("../inputs/two.txt");
+        b.iter(|| {
+            let result = days::two::part_two(input);
             black_box(result);
         })
     });
