@@ -4,13 +4,11 @@ fn digit_from_ascii(byte: u8) -> usize {
     (byte - b'0') as usize
 }
 
-fn max_in_range(range: &[u8]) -> (usize, usize) {
+fn max_in_range(range: &[u8]) -> (usize, u8) {
     let mut max_index = 0;
     let mut max_value = 0;
 
-    for (i, c) in range.iter().enumerate() {
-        let value = digit_from_ascii(*c);
-
+    for (i, &value) in range.iter().enumerate() {
         if value > max_value {
             max_index = i;
             max_value = value;
@@ -22,7 +20,7 @@ fn max_in_range(range: &[u8]) -> (usize, usize) {
 
 fn max_n_digits(line: &[u8], digits: usize) -> usize {
     if digits == 1 {
-        return max_in_range(line).1;
+        return digit_from_ascii(max_in_range(line).1);
     }
 
     let end_bound = line.len() - (digits - 1);
@@ -30,7 +28,7 @@ fn max_n_digits(line: &[u8], digits: usize) -> usize {
     let (max_index, max_value) = max_in_range(&line[..end_bound]);
     let rest = max_n_digits(&line[max_index + 1..], digits - 1);
 
-    max_value * 10usize.pow(digits as u32 - 1) + rest
+    digit_from_ascii(max_value) * 10usize.pow(digits as u32 - 1) + rest
 }
 
 pub fn part_one(input: &str) -> impl Display {
