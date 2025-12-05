@@ -54,6 +54,66 @@ impl Grid {
         neighbors
     }
 
+    pub fn indices(&self) -> Vec<usize> {
+        self.data
+            .iter()
+            .enumerate()
+            .rev()
+            .filter_map(|(i, c)| if *c == b'@' { Some(i) } else { None })
+            .collect()
+
+        // let mut neighbors = Vec::new();
+        // neighbors.reserve_exact(self.data.len());
+        // for y in 0..self.height as i16 {
+        //     for x in 0..self.width as i16 {
+        //         if self.get(x, y) == Some(b'@') {
+        //             let paper = self.paper_around(x, y);
+        //             neighbors.push(paper);
+        //         } else {
+        //             neighbors.push(0);
+        //         }
+        //     }
+        // }
+        // neighbors
+    }
+
+    pub fn remove_accessible_with_indices(
+        &mut self,
+        neighbor_list: &mut [u8],
+        indices: &mut Vec<usize>,
+    ) -> usize {
+        let mut total_removed = 0;
+        for i2 in (0..indices.len()).rev() {
+            let i = indices[i2];
+
+            let char = self.data[i];
+            if char == b'@' && neighbor_list[i] < 4 {
+                self.data[i] = b'x';
+                total_removed += 1;
+
+                let x = (i % self.width) as i16;
+                let y = (i / self.width) as i16;
+
+                // clean up neighbors
+                for j in (y - 1)..=(y + 1) {
+                    for i in (x - 1)..=(x + 1) {
+                        if i == x && j == y {
+                            continue;
+                        }
+
+                        if let Some(index) = index(self.width, self.height, i, j) {
+                            neighbor_list[index] -= 1;
+                        }
+                    }
+                }
+
+                indices.swap_remove(i2);
+            }
+        }
+
+        total_removed
+    }
+
     pub fn remove_accessible(&mut self, neighbor_list: &mut [u8]) -> usize {
         let mut total_removed = 0;
         for (i, char) in self.data.iter_mut().enumerate() {
@@ -102,13 +162,30 @@ pub fn part_one(input: &str) -> impl Display {
 }
 
 // 10132
-pub fn part_two(input: &str) -> impl Display {
+pub fn part_two_simple(input: &str) -> impl Display {
     let mut grid = Grid::new(input.as_bytes());
 
     let mut total_removed = 0;
     let mut neighbor_list = grid.neighbor_list();
     loop {
         let removed = grid.remove_accessible(&mut neighbor_list);
+        total_removed += removed;
+        if removed == 0 {
+            break;
+        }
+    }
+
+    total_removed
+}
+
+pub fn part_two(input: &str) -> impl Display {
+    let mut grid = Grid::new(input.as_bytes());
+
+    let mut total_removed = 0;
+    let mut neighbor_list = grid.neighbor_list();
+    let mut indices = grid.indices();
+    loop {
+        let removed = grid.remove_accessible_with_indices(&mut neighbor_list, &mut indices);
         total_removed += removed;
         if removed == 0 {
             break;
