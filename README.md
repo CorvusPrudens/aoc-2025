@@ -8,5 +8,5 @@
 | Day 2 P2  | 18m45s |  5.3ms|
 | Day 3 P1  | 13m26s | 21us |
 | Day 3 P2  | 92m13s (Don't ask.) | 46us |
-| Day 4 P1  | 23m48s | 250us |
-| Day 4 P2  | 4m39s  | 1.1ms |
+| Day 4 P1  | 23m48s | 190us |
+| Day 4 P2  | 4m39s  | 1.02ms |

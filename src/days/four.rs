@@ -43,8 +43,12 @@ impl Grid {
         neighbors.reserve_exact(self.data.len());
         for y in 0..self.height as i16 {
             for x in 0..self.width as i16 {
-                let paper = self.paper_around(x, y);
-                neighbors.push(paper);
+                if self.get(x, y) == Some(b'@') {
+                    let paper = self.paper_around(x, y);
+                    neighbors.push(paper);
+                } else {
+                    neighbors.push(0);
+                }
             }
         }
         neighbors
@@ -91,8 +95,6 @@ fn index(width: usize, height: usize, x: i16, y: i16) -> Option<usize> {
 
 pub fn part_one(input: &str) -> impl Display {
     Grid::new(input.as_bytes())
-        // constructing the neighbor list is slightly slower but
-        // the code looks nice
         .neighbor_list()
         .into_iter()
         .filter(|n| *n < 4)
