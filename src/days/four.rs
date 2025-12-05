@@ -22,7 +22,7 @@ impl Grid {
         Some(self.data[index(self.width, self.height, x, y)?])
     }
 
-    pub fn paper_around(&self, x: i16, y: i16) -> u8 {
+    pub fn paper_around(&self, x: i16, y: i16) -> u32 {
         let mut total = 0;
         for j in (y - 1)..=(y + 1) {
             for i in (x - 1)..=(x + 1) {
@@ -38,7 +38,7 @@ impl Grid {
         total
     }
 
-    pub fn neighbor_list(&self) -> Vec<u8> {
+    pub fn neighbor_list(&self) -> Vec<u32> {
         let mut neighbors = Vec::new();
         neighbors.reserve_exact(self.data.len());
         for y in 0..self.height as i16 {
@@ -58,37 +58,22 @@ impl Grid {
         self.data
             .iter()
             .enumerate()
-            .rev()
             .filter_map(|(i, c)| if *c == b'@' { Some(i) } else { None })
             .collect()
-
-        // let mut neighbors = Vec::new();
-        // neighbors.reserve_exact(self.data.len());
-        // for y in 0..self.height as i16 {
-        //     for x in 0..self.width as i16 {
-        //         if self.get(x, y) == Some(b'@') {
-        //             let paper = self.paper_around(x, y);
-        //             neighbors.push(paper);
-        //         } else {
-        //             neighbors.push(0);
-        //         }
-        //     }
-        // }
-        // neighbors
     }
 
     pub fn remove_accessible_with_indices(
         &mut self,
-        neighbor_list: &mut [u8],
+        neighbor_list: &mut [u32],
         indices: &mut Vec<usize>,
     ) -> usize {
         let mut total_removed = 0;
-        for i2 in (0..indices.len()).rev() {
+
+        let mut i2 = 0;
+        while i2 < indices.len() {
             let i = indices[i2];
 
-            let char = self.data[i];
-            if char == b'@' && neighbor_list[i] < 4 {
-                self.data[i] = b'x';
+            if neighbor_list[i] < 4 {
                 total_removed += 1;
 
                 let x = (i % self.width) as i16;
@@ -109,12 +94,14 @@ impl Grid {
 
                 indices.swap_remove(i2);
             }
+
+            i2 += 1;
         }
 
         total_removed
     }
 
-    pub fn remove_accessible(&mut self, neighbor_list: &mut [u8]) -> usize {
+    pub fn remove_accessible(&mut self, neighbor_list: &mut [u32]) -> usize {
         let mut total_removed = 0;
         for (i, char) in self.data.iter_mut().enumerate() {
             if *char == b'@' && neighbor_list[i] < 4 {
