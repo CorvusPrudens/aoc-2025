@@ -50,6 +50,22 @@ fn criterion_benchmark(c: &mut Criterion) {
             black_box(result);
         })
     });
+
+    c.bench_function("4 p1", |b| {
+        let input = include_str!("../inputs/four.txt");
+        b.iter(|| {
+            let result = days::four::part_one(input);
+            black_box(result);
+        })
+    });
+
+    c.bench_function("4 p2", |b| {
+        let input = include_str!("../inputs/four.txt");
+        b.iter(|| {
+            let result = days::four::part_two(input);
+            black_box(result);
+        })
+    });
 }
 
 criterion_group!(benches, criterion_benchmark);
