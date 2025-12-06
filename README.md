@@ -10,3 +10,5 @@
 | Day 3 P2  | 92m13s (Don't ask.) | 46us |
 | Day 4 P1  | 23m48s | 190us |
 | Day 4 P2  | 4m39s  | 420us |
+| Day 5 P1  | 7m15s  | 80.2us | 67.6us |
+| Day 5 P2  | 44m24s  | 55.6us | 51.6us |

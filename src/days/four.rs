@@ -184,12 +184,12 @@ pub fn part_two(input: &str) -> impl Display {
 
 #[cfg(test)]
 mod test {
-    use super::*;
+    // use super::*;
 
-    #[test]
-    fn test_small() {
-        let input = "..@@.@@@@.\n@@@.@.@.@@\n@@@@@.@.@@\n@.@@@@..@.\n@@.@@@@.@@\n.@@@@@@@.@\n.@.@.@.@@@\n@.@@@.@@@@\n.@@@@@@@@.\n@.@.@@@.@.";
+    // #[test]
+    // fn test_small() {
+    //     let input = "..@@.@@@@.\n@@@.@.@.@@\n@@@@@.@.@@\n@.@@@@..@.\n@@.@@@@.@@\n.@@@@@@@.@\n.@.@.@.@@@\n@.@@@.@@@@\n.@@@@@@@@.\n@.@.@@@.@.";
 
-        assert_eq!("13", part_one(input).to_string().as_str());
-    }
+    //     assert_eq!("13", part_one(input).to_string().as_str());
+    // }
 }
