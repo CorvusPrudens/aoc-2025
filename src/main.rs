@@ -65,6 +65,11 @@ fn main() {
                 // aoc_2025::days::six::part_one(&input).to_string()
                 aoc_2025::days::six::second_try::part_two(&input).to_string()
             }
+            7 => {
+                let input = args.get_input();
+                // aoc_2025::days::seven::part_one(&input).to_string()
+                aoc_2025::days::seven::first_try::part_two(&input).to_string()
+            }
             n if n < 12 => panic!("`{n}` does not yet have a solution :/"),
             n => panic!("There aren't even `{n}` days this year, silly!"),
         };

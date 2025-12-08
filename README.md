@@ -14,3 +14,5 @@
 | Day 5 P2  | 44m24s  | 55.6us | 51.6us |
 | Day 6 P1  | 32m31s  | 25.04us | 29.0us |
 | Day 6 P2  | 32m06s  | 46.75us | 21.3us |
+| Day 7 P1  | 16m46s  | 14.3us |
+| Day 7 P2  | 43m03s  | 9ms | 849us |
