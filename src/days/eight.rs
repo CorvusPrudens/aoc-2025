@@ -24,8 +24,8 @@ impl Coordinate {
 #[derive(Clone, Copy, Eq)]
 struct Pair {
     distance: i64,
-    a: Coordinate,
-    b: Coordinate,
+    a: usize,
+    b: usize,
 }
 
 impl Ord for Pair {
@@ -47,8 +47,8 @@ impl PartialEq for Pair {
 }
 
 pub fn part_one_first_try(input: &str, max_pairs: usize) -> impl Display {
-    let pairs = parse_junction_pairs(input);
-    let mut circuits = Vec::<HashSet<Coordinate>>::new();
+    let (_, pairs) = parse_junction_pairs(input);
+    let mut circuits = Vec::<HashSet<usize>>::new();
 
     for Pair { a, b, .. } in pairs.into_iter().take(max_pairs) {
         let circuit_a = circuits.iter().position(|c| c.contains(&a));
@@ -102,8 +102,8 @@ pub fn part_one_first_try(input: &str, max_pairs: usize) -> impl Display {
 
 #[derive(Default)]
 struct Circuits {
-    circuits: HashMap<usize, HashSet<Coordinate>>,
-    coordinate_mapping: HashMap<Coordinate, usize>,
+    circuits: HashMap<usize, HashSet<usize>>,
+    coordinate_mapping: HashMap<usize, usize>,
     id: usize,
 }
 
@@ -193,7 +193,7 @@ pub fn part_one(input: &str, max_pairs: usize) -> impl Display {
 }
 
 pub fn part_two(input: &str) -> impl Display {
-    let pairs = parse_junction_pairs(input);
+    let (junctions, pairs) = parse_junction_pairs(input);
     let mut circuits = Circuits::default();
 
     let mut last_pair = None;
@@ -204,7 +204,7 @@ pub fn part_two(input: &str) -> impl Display {
     }
 
     let last_pair = last_pair.unwrap();
-    last_pair.a.x * last_pair.b.x
+    junctions[last_pair.a].x * junctions[last_pair.b].x
 }
 
 fn parse_junction_pairs_heap(input: &str) -> BinaryHeap<Pair> {
@@ -223,12 +223,12 @@ fn parse_junction_pairs_heap(input: &str) -> BinaryHeap<Pair> {
     // Find all unique connections and sort them.
     let mut pairs = BinaryHeap::new();
     for (i, a) in junctions.iter().enumerate() {
-        for b in junctions.iter().skip(i + 1) {
+        for (j, b) in junctions.iter().enumerate().skip(i + 1) {
             let distance = a.dist2(b);
             pairs.push(Pair {
                 distance,
-                a: a.clone(),
-                b: b.clone(),
+                a: i,
+                b: j,
             });
         }
     }
@@ -236,7 +236,7 @@ fn parse_junction_pairs_heap(input: &str) -> BinaryHeap<Pair> {
     pairs
 }
 
-fn parse_junction_pairs(input: &str) -> Vec<Pair> {
+fn parse_junction_pairs(input: &str) -> (Vec<Coordinate>, Vec<Pair>) {
     let junctions: Vec<_> = input
         .lines()
         .flat_map(|line| {
@@ -252,18 +252,18 @@ fn parse_junction_pairs(input: &str) -> Vec<Pair> {
     // Find all unique connections and sort them.
     let mut pairs = Vec::with_capacity(junctions.len().pow(2));
     for (i, a) in junctions.iter().enumerate() {
-        for b in junctions.iter().skip(i + 1) {
+        for (j, b) in junctions.iter().enumerate().skip(i + 1) {
             let distance = a.dist2(b);
             pairs.push(Pair {
                 distance,
-                a: a.clone(),
-                b: b.clone(),
+                a: i,
+                b: j,
             });
         }
     }
     pairs.sort_unstable_by_key(|p| p.distance);
 
-    pairs
+    (junctions, pairs)
 }
 
 #[cfg(test)]
