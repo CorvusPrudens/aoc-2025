@@ -16,3 +16,5 @@
 | Day 6 P2  | 32m06s  | 46.75us | 21.3us |
 | Day 7 P1  | 16m46s  | 14.3us |
 | Day 7 P2  | 43m03s  | 9ms | 849us |
+| Day 8 P1  | 1h27m  | 22.4ms | 12.9 |
+| Day 8 P2  | 5m49s  | 39.1ms |

@@ -146,6 +146,22 @@ fn criterion_benchmark(c: &mut Criterion) {
             black_box(result);
         })
     });
+
+    c.bench_function("8 p1", |b| {
+        let input = include_str!("../inputs/eight.txt");
+        b.iter(|| {
+            let result = days::eight::part_one(input, 1000);
+            black_box(result);
+        })
+    });
+
+    c.bench_function("8 p2", |b| {
+        let input = include_str!("../inputs/eight.txt");
+        b.iter(|| {
+            let result = days::eight::part_two(input);
+            black_box(result);
+        })
+    });
 }
 
 criterion_group!(benches, criterion_benchmark);
