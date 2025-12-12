@@ -80,6 +80,16 @@ fn main() {
                 // aoc_2025::days::nine::part_one(&input).to_string()
                 aoc_2025::days::nine::part_two(&input).to_string()
             }
+            10 => {
+                let input = args.get_input();
+                // aoc_2025::days::ten::part_one(&input).to_string()
+                aoc_2025::days::ten::part_two(&input).to_string()
+            }
+            11 => {
+                let input = args.get_input();
+                // aoc_2025::days::eleven::part_one(&input).to_string()
+                aoc_2025::days::eleven::part_two(&input).to_string()
+            }
             n if n < 12 => panic!("`{n}` does not yet have a solution :/"),
             n => panic!("There aren't even `{n}` days this year, silly!"),
         };
